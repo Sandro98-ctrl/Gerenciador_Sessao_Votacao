@@ -21,6 +21,7 @@ public class Sessao {
 	private EstadoSessao estado;
 	@DBRef
 	private Pauta pauta;
+	@DBRef
 	private Collection<Voto> votos;
 	
 	public Sessao() {
@@ -67,7 +68,15 @@ public class Sessao {
 	}
 
 	public boolean addVoto(Voto voto) {
-		return this.votos.add(voto);
+		return votos.contains(voto) ? false : votos.add(voto);
+	}
+	
+	public Long contaVotosAFavor() {
+		return votos.stream().filter(v -> v.getOpcaoVoto() == OpcaoVoto.SIM).count();
+	}
+	
+	public Long contaVotosContra() {
+		return votos.stream().filter(v -> v.getOpcaoVoto() == OpcaoVoto.NAO).count();
 	}
 	
 //	@Scheduled(fixedDelay = 5000)

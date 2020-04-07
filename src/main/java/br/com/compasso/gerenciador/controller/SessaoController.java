@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.compasso.gerenciador.business.SessaoBusiness;
+import br.com.compasso.gerenciador.controller.dto.ResultadosSessaoDTO;
 import br.com.compasso.gerenciador.controller.dto.SessaoCompletaDTO;
 import br.com.compasso.gerenciador.controller.dto.SessaoCriadaDTO;
 import br.com.compasso.gerenciador.controller.form.SessaoForm;
@@ -37,23 +38,23 @@ public class SessaoController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getOne(@PathVariable String id){
+	public ResponseEntity<SessaoCompletaDTO> getOne(@PathVariable String id){
 		
 		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping("/{id}/resultados")
-	public ResponseEntity<?> resultados(){
-		return null;
+	public ResponseEntity<ResultadosSessaoDTO> resultados(@PathVariable String id){
+		var resultados = sessaoBusiness.getResultadosDaSessao(id);
+		return ResponseEntity.ok(resultados);
 	}
 	
 	@PostMapping
 	@Transactional
 	public ResponseEntity<SessaoCriadaDTO> cadastrar(@RequestBody @Valid SessaoForm form, UriComponentsBuilder uriBuilder){
-		var sessao = sessaoBusiness.toSessao(form);
-		sessaoBusiness.save(sessao);
-		var uri = uriBuilder.path("/sessoes/{id}").buildAndExpand(sessao.getId()).toUri();
-		return ResponseEntity.created(uri).body(new SessaoCriadaDTO(sessao));
+		var sessaoDTO = sessaoBusiness.cadastrar(form);
+		var uri = uriBuilder.path("/sessoes/{id}").buildAndExpand(sessaoDTO.getId()).toUri();
+		return ResponseEntity.created(uri).body(sessaoDTO);
 	}
 	
 	@PostMapping("/{id}/votar")

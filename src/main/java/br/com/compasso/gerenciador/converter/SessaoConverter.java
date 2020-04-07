@@ -2,6 +2,7 @@ package br.com.compasso.gerenciador.converter;
 
 import org.springframework.stereotype.Component;
 
+import br.com.compasso.gerenciador.controller.dto.SessaoCriadaDTO;
 import br.com.compasso.gerenciador.controller.form.SessaoForm;
 import br.com.compasso.gerenciador.model.Sessao;
 import br.com.compasso.gerenciador.service.PautaService;
@@ -19,6 +20,10 @@ public class SessaoConverter {
 		
 		sessao.setPauta(pauta);
 		return sessao;
+	}
+
+	public SessaoCriadaDTO toSessaoCriadaDTO(Sessao sessao) {
+		return new SessaoCriadaDTO(sessao);
 	}
 	
 }

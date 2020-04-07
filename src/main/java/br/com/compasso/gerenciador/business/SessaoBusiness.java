@@ -1,10 +1,13 @@
 package br.com.compasso.gerenciador.business;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import br.com.compasso.gerenciador.controller.dto.ResultadosSessaoDTO;
+import br.com.compasso.gerenciador.controller.dto.SessaoCriadaDTO;
 import br.com.compasso.gerenciador.controller.form.SessaoForm;
 import br.com.compasso.gerenciador.controller.form.VotoForm;
 import br.com.compasso.gerenciador.converter.SessaoConverter;
@@ -41,13 +44,20 @@ public class SessaoBusiness {
 	public Optional<Sessao> getSessaoById(String id) {
 		return sessaoService.getById(id);
 	}
+	
+	public ResultadosSessaoDTO getResultadosDaSessao(String id) {
+		var sessao = sessaoService.getById(id);
+		return sessao.map(ResultadosSessaoDTO::new).orElseThrow(NoSuchElementException::new);
+	}
 
 	public void save(Sessao sessao) {
 		sessaoService.save(sessao);
 	}
 	
-	public Sessao toSessao(SessaoForm form) {
-		return sessaoConverter.toSessao(form, pautaService);
+	public SessaoCriadaDTO cadastrar(SessaoForm form) {
+		var sessao = sessaoConverter.toSessao(form, pautaService);
+		sessaoService.save(sessao);
+		return sessaoConverter.toSessaoCriadaDTO(sessao);
 	}
 	
 	public void votar(VotoForm form, String sessaoId){
