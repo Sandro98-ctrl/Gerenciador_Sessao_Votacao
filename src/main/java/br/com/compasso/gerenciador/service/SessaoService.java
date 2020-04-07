@@ -2,7 +2,6 @@ package br.com.compasso.gerenciador.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -21,10 +20,6 @@ public class SessaoService {
 	public List<Sessao> getAll(){
 		return sessaoRepository.findAll();
 	}
-
-	public Optional<Sessao> getById(String id) {
-		return sessaoRepository.findById(id);
-	}
 	
 	public Sessao getSessaoById(String id) {
 		var sessao = sessaoRepository.findById(id);
@@ -34,5 +29,4 @@ public class SessaoService {
 	public void save(Sessao sessao) {
 		sessaoRepository.save(sessao);
 	}
-	
 }

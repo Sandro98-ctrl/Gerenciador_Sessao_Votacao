@@ -79,9 +79,8 @@ public class Sessao {
 		return votos.stream().filter(v -> v.getOpcaoVoto() == OpcaoVoto.NAO).count();
 	}
 	
-//	@Scheduled(fixedDelay = 5000)
-//	public void checkSession() {
-//		
-//	}
+	public boolean isSessaoExpirada() {
+		return dataHoraTermino.isBefore(LocalDateTime.now());
+	}
 
 }

@@ -34,13 +34,13 @@ public class SessaoController {
 	@GetMapping
 	public ResponseEntity<Collection<SessaoCompletaDTO>> list(){
 		var lista = sessaoBusiness.getAllSessoes();
-		return ResponseEntity.ok(SessaoCompletaDTO.convert(lista));
+		return ResponseEntity.ok(lista);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<SessaoCompletaDTO> getOne(@PathVariable String id){
-		
-		return ResponseEntity.ok().build();
+		var sessaoDTO = sessaoBusiness.getById(id);
+		return ResponseEntity.ok(sessaoDTO);
 	}
 	
 	@GetMapping("/{id}/resultados")

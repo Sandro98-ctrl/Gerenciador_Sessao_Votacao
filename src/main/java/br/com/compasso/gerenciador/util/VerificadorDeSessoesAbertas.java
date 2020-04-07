@@ -1,7 +1,5 @@
 package br.com.compasso.gerenciador.util;
 
-import java.time.LocalDateTime;
-
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -29,7 +27,7 @@ public class VerificadorDeSessoesAbertas {
 		if(lista.isEmpty()) return;
 		
 		lista.forEach(s -> {
-			if(s.getDataHoraTermino().isBefore(LocalDateTime.now())) {
+			if(s.isSessaoExpirada()) {
 				s.setEstado(EstadoSessao.ENCERRADA);
 				sessaoRepository.save(s);
 			}

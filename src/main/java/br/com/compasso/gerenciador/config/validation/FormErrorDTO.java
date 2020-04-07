@@ -16,6 +16,6 @@ public class FormErrorDTO {
 
 	public String getError() {
 		return error;
-	};
+	}
 	
 }

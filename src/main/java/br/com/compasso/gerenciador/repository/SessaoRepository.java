@@ -10,5 +10,4 @@ import br.com.compasso.gerenciador.model.Sessao;
 public interface SessaoRepository extends MongoRepository<Sessao, String>{
 	
 	List<Sessao> findByEstado(EstadoSessao sessao);
-	
 }
