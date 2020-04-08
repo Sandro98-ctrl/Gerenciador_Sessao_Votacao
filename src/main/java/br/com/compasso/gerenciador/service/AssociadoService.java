@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
 
 import br.com.compasso.gerenciador.controller.dto.AssociadoDTO;
+import br.com.compasso.gerenciador.controller.form.AssociadoForm;
 import br.com.compasso.gerenciador.converter.AssociadoConverter;
 import br.com.compasso.gerenciador.model.Associado;
 import br.com.compasso.gerenciador.repository.AssociadoRepository;
@@ -27,16 +28,18 @@ public class AssociadoService {
 	}
 	
 	public AssociadoDTO getById(String id) {
-		var associado = associadoRepository.findById(id);
-		return associado.map(associadoConverter::toAssociadoDTO).orElseThrow(NoSuchElementException::new);
+		var associado = getAssociadoById(id);
+		return associadoConverter.toAssociadoDTO(associado);
 	}
 	
 	public Associado getAssociadoById(String id) {
 		var associado = associadoRepository.findById(id);
-		return associado.orElseThrow(NoSuchElementException::new);
+		return associado.orElseThrow(() -> new NoSuchElementException("Associado não encontrado"));
 	}
 
-	public void save(Associado associado) {
+	public AssociadoDTO cadastrar(AssociadoForm form) {
+		var associado = associadoConverter.toAssociado(form);
 		associadoRepository.save(associado);
+		return associadoConverter.toAssociadoDTO(associado);
 	}
 }

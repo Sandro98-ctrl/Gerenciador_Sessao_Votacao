@@ -2,11 +2,11 @@ package br.com.compasso.gerenciador.controller.dto;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import br.com.compasso.gerenciador.model.EstadoSessao;
 import br.com.compasso.gerenciador.model.Sessao;
 import br.com.compasso.gerenciador.model.Voto;
 
@@ -17,6 +17,7 @@ public class SessaoCompletaDTO {
 	private LocalDateTime dataHoraInicio;
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private LocalDateTime dataHoraTermino;
+	private EstadoSessao estadoSessao;
 	private PautaDTO pauta;
 	private Collection<VotoDTO> votos;
 	
@@ -24,6 +25,7 @@ public class SessaoCompletaDTO {
 		this.id = sessao.getId();
 		this.dataHoraInicio = sessao.getDataHoraInicio();
 		this.dataHoraTermino = sessao.getDataHoraTermino();
+		this.estadoSessao = sessao.getEstado();
 		this.pauta = new PautaDTO(sessao.getPauta());
 		this.votos = carregaVotos(sessao.getVotos());
 	}
@@ -39,6 +41,10 @@ public class SessaoCompletaDTO {
 	public LocalDateTime getDataHoraTermino() {
 		return dataHoraTermino;
 	}
+	
+	public EstadoSessao getEstadoSessao() {
+		return estadoSessao;
+	}
 
 	public PautaDTO getPauta() {
 		return pauta;
@@ -46,10 +52,6 @@ public class SessaoCompletaDTO {
 
 	public Collection<VotoDTO> getVotos() {
 		return votos;
-	}
-
-	public static List<SessaoCompletaDTO> convert(List<Sessao> lista) {
-		return lista.stream().map(SessaoCompletaDTO::new).collect(Collectors.toList());
 	}
 	
 	private Collection<VotoDTO> carregaVotos(Collection<Voto> votos){

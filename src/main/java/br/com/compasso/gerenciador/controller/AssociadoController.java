@@ -23,29 +23,28 @@ import br.com.compasso.gerenciador.service.AssociadoService;
 public class AssociadoController {
 
 	private final AssociadoService associadoService;
-	
+
 	public AssociadoController(AssociadoService associadoService) {
 		this.associadoService = associadoService;
 	}
-	
+
 	@GetMapping
 	public ResponseEntity<Collection<AssociadoDTO>> list() {
 		var listaDTO = associadoService.getAll();
 		return ResponseEntity.ok(listaDTO);
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<AssociadoDTO> getOne(@PathVariable String id) {
 		var associadoDTO = associadoService.getById(id);
 		return ResponseEntity.ok(associadoDTO);
 	}
-	
+
 	@PostMapping
 	@Transactional
-	public ResponseEntity<AssociadoDTO> cadastrar(@RequestBody @Valid AssociadoForm form, UriComponentsBuilder uriBuilder){
-		var associado = form.toAssociado();
-		associadoService.save(associado);
-		var uri = uriBuilder.path("/associados/{id}").buildAndExpand(associado.getId()).toUri();
-		return ResponseEntity.created(uri).body(new AssociadoDTO(associado));
+	public ResponseEntity<AssociadoDTO> cadastrar(@RequestBody @Valid AssociadoForm form, UriComponentsBuilder uriBuilder) {
+		var associadoDTO = associadoService.cadastrar(form);
+		var uri = uriBuilder.path("/associados/{id}").buildAndExpand(associadoDTO.getId()).toUri();
+		return ResponseEntity.created(uri).body(associadoDTO);
 	}
 }

@@ -22,9 +22,5 @@ public class PautaForm {
 	public String getDescricao() {
 		return descricao;
 	}
-
-	public Pauta toPauta() {
-		return new Pauta(assunto, descricao);
-	}
 	
 }

@@ -82,5 +82,9 @@ public class Sessao {
 	public boolean isSessaoExpirada() {
 		return dataHoraTermino.isBefore(LocalDateTime.now());
 	}
+	
+	public boolean isSessaoAberta() {
+		return estado == EstadoSessao.ABERTA;
+	}
 
 }

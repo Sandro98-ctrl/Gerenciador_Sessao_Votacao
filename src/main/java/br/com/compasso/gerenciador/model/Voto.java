@@ -14,22 +14,35 @@ public class Voto {
 	private OpcaoVoto opcaoVoto;
 	@DBRef
 	private Associado associado;
-
-	public Voto(OpcaoVoto opcaoVoto, Associado associado) {
-		this.opcaoVoto = opcaoVoto;
-		this.associado = associado;
-	}
-
+	@DBRef
+	private Sessao sessao;
+	
 	public String getId() {
 		return id;
 	}
-
+	
 	public OpcaoVoto getOpcaoVoto() {
 		return opcaoVoto;
 	}
 
+	public void setOpcaoVoto(OpcaoVoto opcaoVoto) {
+		this.opcaoVoto = opcaoVoto;
+	}
+
 	public Associado getAssociado() {
 		return associado;
+	}
+
+	public void setAssociado(Associado associado) {
+		this.associado = associado;
+	}
+
+	public Sessao getSessao() {
+		return sessao;
+	}
+
+	public void setSessao(Sessao sessao) {
+		this.sessao = sessao;
 	}
 
 	@Override

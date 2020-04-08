@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import br.com.compasso.gerenciador.controller.dto.AssociadoDTO;
+import br.com.compasso.gerenciador.controller.form.AssociadoForm;
 import br.com.compasso.gerenciador.model.Associado;
 
 @Component
@@ -17,5 +18,9 @@ public class AssociadoConverter{
 	
 	public Collection<AssociadoDTO> toAssociadoDTOCollection(Collection<Associado> associados){
 		return associados.stream().map(AssociadoDTO::new).collect(Collectors.toList());
+	}
+
+	public Associado toAssociado(AssociadoForm form) {
+		return new Associado(form.getCpf(), form.getNome());
 	}
 }

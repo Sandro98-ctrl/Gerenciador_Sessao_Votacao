@@ -16,19 +16,19 @@ import br.com.compasso.gerenciador.service.VotoService;
 public class VotoController {
 
 	private final VotoService votoService;
-	
+
 	public VotoController(VotoService votoService) {
 		this.votoService = votoService;
 	}
-	
+
 	@GetMapping
-	public ResponseEntity<Collection<VotoDetalhadoDTO>> list(){
+	public ResponseEntity<Collection<VotoDetalhadoDTO>> list() {
 		var listaDTO = votoService.getAll();
 		return ResponseEntity.ok(listaDTO);
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<VotoDetalhadoDTO> getOne(@PathVariable String id){
+	public ResponseEntity<VotoDetalhadoDTO> getOne(@PathVariable String id) {
 		var votoDTO = votoService.getById(id);
 		return ResponseEntity.ok(votoDTO);
 	}

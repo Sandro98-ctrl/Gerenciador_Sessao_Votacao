@@ -9,6 +9,7 @@ import br.com.compasso.gerenciador.controller.dto.VotoDTO;
 import br.com.compasso.gerenciador.controller.dto.VotoDetalhadoDTO;
 import br.com.compasso.gerenciador.controller.form.VotoForm;
 import br.com.compasso.gerenciador.model.OpcaoVoto;
+import br.com.compasso.gerenciador.model.Sessao;
 import br.com.compasso.gerenciador.model.Voto;
 import br.com.compasso.gerenciador.service.AssociadoService;
 
@@ -27,10 +28,14 @@ public class VotoConverter {
 		return votos.stream().map(VotoDetalhadoDTO::new).collect(Collectors.toList());
 	}
 
-	public Voto toVoto(VotoForm form, AssociadoService associadoService) {
+	public Voto toVoto(VotoForm form, AssociadoService associadoService, Sessao sessao) {
 		var opcao = OpcaoVoto.valueOf(form.getOpcaoVoto());
 		var associado = associadoService.getAssociadoById(form.getAssociadoId());
+		var voto = new Voto();
+		voto.setOpcaoVoto(opcao);
+		voto.setAssociado(associado);
+		voto.setSessao(sessao);
 		
-		return new Voto(opcao, associado);
+		return voto;
 	}
 }

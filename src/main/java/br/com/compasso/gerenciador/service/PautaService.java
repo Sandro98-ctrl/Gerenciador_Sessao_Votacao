@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
 
 import br.com.compasso.gerenciador.controller.dto.PautaDTO;
+import br.com.compasso.gerenciador.controller.form.PautaForm;
 import br.com.compasso.gerenciador.converter.PautaConverter;
 import br.com.compasso.gerenciador.model.Pauta;
 import br.com.compasso.gerenciador.repository.PautaRepository;
@@ -27,16 +28,18 @@ public class PautaService {
 	}
 	
 	public PautaDTO getById(String id){
-		var pauta = pautaRepository.findById(id);
-		return pauta.map(pautaConverter::toPautaDTO).orElseThrow(NoSuchElementException::new);
+		var pauta = getPautaById(id);
+		return pautaConverter.toPautaDTO(pauta);
+	}
+	
+	public PautaDTO cadastrar(PautaForm form) {
+		var pauta = pautaConverter.toPauta(form);
+		pautaRepository.save(pauta);
+		return pautaConverter.toPautaDTO(pauta);
 	}
 	
 	public Pauta getPautaById(String id){
 		var pauta = pautaRepository.findById(id);
-		return pauta.orElseThrow(NoSuchElementException::new);
-	}
-	
-	public void save(Pauta pauta) {
-		pautaRepository.save(pauta);
+		return pauta.orElseThrow(() -> new NoSuchElementException("Pauta não encontrada"));
 	}
 }

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import br.com.compasso.gerenciador.controller.dto.PautaDTO;
+import br.com.compasso.gerenciador.controller.form.PautaForm;
 import br.com.compasso.gerenciador.model.Pauta;
 
 @Component
@@ -17,5 +18,9 @@ public class PautaConverter {
 
 	public Collection<PautaDTO> toPautaDTOCollection(Collection<Pauta> pautas){
 		return pautas.stream().map(PautaDTO::new).collect(Collectors.toList());
+	}
+
+	public Pauta toPauta(PautaForm form) {
+		return new Pauta(form.getAssunto(), form.getDescricao());
 	}
 }

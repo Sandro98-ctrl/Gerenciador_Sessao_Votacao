@@ -1,9 +1,8 @@
 package br.com.compasso.gerenciador.config.validation;
 
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -41,28 +40,12 @@ public class ValidationErrorHandler {
 	}
 	
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(IllegalArgumentException.class)
-	public ErrorDTO handle(IllegalArgumentException ex) {
-		return new ErrorDTO(ex.getMessage());
-	}
-	
-	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(InvalidFormatException.class)
-	public ErrorDTO handle(InvalidFormatException ex) {
-		return new ErrorDTO(ex.getMessage());
-	}
-	
-	// Exceptions criadas pelo desenvolvedor
-	
-	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(SessaoFechadaException.class)
-	public ErrorDTO handle(SessaoFechadaException ex) {
-		return new ErrorDTO(ex.getMessage());
-	}
-	
-	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(JaVotouException.class)
-	public ErrorDTO handle(JaVotouException ex) {
+	@ExceptionHandler({NoSuchElementException.class,
+					   IllegalArgumentException.class,
+					   InvalidFormatException.class,
+					   SessaoFechadaException.class,
+					   JaVotouException.class})
+	public ErrorDTO handle(RuntimeException ex) {
 		return new ErrorDTO(ex.getMessage());
 	}
 	

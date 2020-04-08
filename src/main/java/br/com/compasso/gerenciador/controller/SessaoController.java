@@ -26,40 +26,40 @@ import br.com.compasso.gerenciador.controller.form.VotoForm;
 public class SessaoController {
 
 	private final SessaoBusiness sessaoBusiness;
-	
+
 	public SessaoController(SessaoBusiness sessaoBusiness) {
 		this.sessaoBusiness = sessaoBusiness;
 	}
-	
+
 	@GetMapping
-	public ResponseEntity<Collection<SessaoCompletaDTO>> list(){
-		var lista = sessaoBusiness.getAllSessoes();
-		return ResponseEntity.ok(lista);
+	public ResponseEntity<Collection<SessaoCompletaDTO>> list() {
+		var listaDTO = sessaoBusiness.getAllSessoes();
+		return ResponseEntity.ok(listaDTO);
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<SessaoCompletaDTO> getOne(@PathVariable String id){
+	public ResponseEntity<SessaoCompletaDTO> getOne(@PathVariable String id) {
 		var sessaoDTO = sessaoBusiness.getById(id);
 		return ResponseEntity.ok(sessaoDTO);
 	}
-	
+
 	@GetMapping("/{id}/resultados")
-	public ResponseEntity<ResultadosSessaoDTO> resultados(@PathVariable String id){
+	public ResponseEntity<ResultadosSessaoDTO> resultados(@PathVariable String id) {
 		var resultados = sessaoBusiness.getResultadosDaSessao(id);
 		return ResponseEntity.ok(resultados);
 	}
-	
+
 	@PostMapping
 	@Transactional
-	public ResponseEntity<SessaoCriadaDTO> cadastrar(@RequestBody @Valid SessaoForm form, UriComponentsBuilder uriBuilder){
+	public ResponseEntity<SessaoCriadaDTO> cadastrar(@RequestBody @Valid SessaoForm form, UriComponentsBuilder uriBuilder) {
 		var sessaoDTO = sessaoBusiness.cadastrar(form);
 		var uri = uriBuilder.path("/sessoes/{id}").buildAndExpand(sessaoDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(sessaoDTO);
 	}
-	
+
 	@PostMapping("/{id}/votar")
 	@Transactional
-	public ResponseEntity<?> votar(@RequestBody @Valid VotoForm form, @PathVariable String id){
+	public ResponseEntity<?> votar(@RequestBody @Valid VotoForm form, @PathVariable String id) {
 		sessaoBusiness.votar(form, id);
 		return ResponseEntity.ok().build();
 	}

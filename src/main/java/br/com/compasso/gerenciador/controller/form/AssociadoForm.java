@@ -24,9 +24,5 @@ public class AssociadoForm {
 	public String getNome() {
 		return nome;
 	}
-
-	public Associado toAssociado() {
-		return new Associado(cpf, nome);
-	}
 	
 }

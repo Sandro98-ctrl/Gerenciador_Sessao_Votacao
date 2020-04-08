@@ -8,11 +8,13 @@ public class VotoDetalhadoDTO {
 	private String id;
 	private OpcaoVoto opcaoVoto;
 	private AssociadoDTO associado;
+	private SessaoSimplificadaDTO sessao;
 
 	public VotoDetalhadoDTO(Voto voto) {
 		this.id = voto.getId();
 		this.opcaoVoto = voto.getOpcaoVoto();
 		this.associado = new AssociadoDTO(voto.getAssociado());
+		this.sessao = new SessaoSimplificadaDTO(voto.getSessao());
 	}
 	
 	public String getId() {
@@ -25,6 +27,10 @@ public class VotoDetalhadoDTO {
 
 	public AssociadoDTO getAssociado() {
 		return associado;
+	}
+	
+	public SessaoSimplificadaDTO getSessao() {
+		return sessao;
 	}
 
 }

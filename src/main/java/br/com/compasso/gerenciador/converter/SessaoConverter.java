@@ -19,6 +19,7 @@ public class SessaoConverter {
 	public Sessao toSessao(SessaoForm form, PautaService pautaService) {
 		var pauta = pautaService.getPautaById(form.getPautaId());
 		var sessao = new Sessao();
+		sessao.setPauta(pauta);
 		
 		if(form.getDataHoraTermino() != null) {
 			if(form.getDataHoraTermino().isBefore(LocalDateTime.now())) {
@@ -28,7 +29,6 @@ public class SessaoConverter {
 			sessao.setDataHoraTermino(form.getDataHoraTermino());
 		}
 		
-		sessao.setPauta(pauta);
 		return sessao;
 	}
 

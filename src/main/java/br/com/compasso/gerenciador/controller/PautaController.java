@@ -23,30 +23,29 @@ import br.com.compasso.gerenciador.service.PautaService;
 public class PautaController {
 
 	private final PautaService pautaService;
-	
+
 	public PautaController(PautaService pautaService) {
 		this.pautaService = pautaService;
 	}
-	
+
 	@GetMapping
-	public ResponseEntity<Collection<PautaDTO>> list(){
+	public ResponseEntity<Collection<PautaDTO>> list() {
 		var listaDTO = pautaService.getAll();
 		return ResponseEntity.ok(listaDTO);
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<PautaDTO> getOne(@PathVariable String id){
+	public ResponseEntity<PautaDTO> getOne(@PathVariable String id) {
 		var pautaDTO = pautaService.getById(id);
 		return ResponseEntity.ok(pautaDTO);
 	}
-	
+
 	@PostMapping
 	@Transactional
-	public ResponseEntity<PautaDTO> cadastrar(@RequestBody @Valid PautaForm form, UriComponentsBuilder uriBuilder){
-		var pauta = form.toPauta();
-		pautaService.save(pauta);
-		var uri = uriBuilder.path("/pautas/{id}").buildAndExpand(pauta.getId()).toUri();
-		return ResponseEntity.created(uri).body(new PautaDTO(pauta));
+	public ResponseEntity<PautaDTO> cadastrar(@RequestBody @Valid PautaForm form, UriComponentsBuilder uriBuilder) {
+		var pautaDTO = pautaService.cadastrar(form);
+		var uri = uriBuilder.path("/pautas/{id}").buildAndExpand(pautaDTO.getId()).toUri();
+		return ResponseEntity.created(uri).body(pautaDTO);
 	}
-	
+
 }
