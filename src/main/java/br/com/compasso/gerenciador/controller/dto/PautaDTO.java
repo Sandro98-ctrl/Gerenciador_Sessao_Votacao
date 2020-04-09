@@ -4,9 +4,9 @@ import br.com.compasso.gerenciador.model.Pauta;
 
 public class PautaDTO {
 
-	private String id;
-	private String assunto;
-	private String descricao;
+	private final String id;
+	private final String assunto;
+	private final String descricao;
 	
 	public PautaDTO(Pauta pauta) {
 		this.id = pauta.getId();

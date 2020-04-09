@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import br.com.compasso.gerenciador.exception.JaVotouException;
+import br.com.compasso.gerenciador.exception.NotFoundException;
 import br.com.compasso.gerenciador.exception.SessaoFechadaException;
 
 @RestControllerAdvice
@@ -44,7 +45,8 @@ public class ValidationErrorHandler {
 					   IllegalArgumentException.class,
 					   InvalidFormatException.class,
 					   SessaoFechadaException.class,
-					   JaVotouException.class})
+					   JaVotouException.class,
+					   NotFoundException.class})
 	public ErrorDTO handle(RuntimeException ex) {
 		return new ErrorDTO(ex.getMessage());
 	}

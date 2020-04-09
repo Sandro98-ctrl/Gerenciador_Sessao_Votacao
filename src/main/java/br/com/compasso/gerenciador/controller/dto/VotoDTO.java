@@ -5,8 +5,8 @@ import br.com.compasso.gerenciador.model.Voto;
 
 public class VotoDTO {
 
-	private OpcaoVoto voto;
-	private String associadoId;
+	private final OpcaoVoto voto;
+	private final String associadoId;
 
 	public VotoDTO(Voto voto) {
 		this.voto = voto.getOpcaoVoto();

@@ -10,6 +10,8 @@ import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import br.com.compasso.gerenciador.util.ContabilizadorDeVotos;
+
 @Document(collection = "sessoes")
 @TypeAlias("Sessao")
 public class Sessao {
@@ -71,20 +73,8 @@ public class Sessao {
 		return votos.contains(voto) ? false : votos.add(voto);
 	}
 	
-	public Long contaVotosAFavor() {
-		return votos.stream().filter(v -> v.getOpcaoVoto() == OpcaoVoto.SIM).count();
-	}
-	
-	public Long contaVotosContra() {
-		return votos.stream().filter(v -> v.getOpcaoVoto() == OpcaoVoto.NAO).count();
-	}
-	
 	public boolean isSessaoExpirada() {
 		return dataHoraTermino.isBefore(LocalDateTime.now());
-	}
-	
-	public boolean isSessaoAberta() {
-		return estado == EstadoSessao.ABERTA;
 	}
 
 }

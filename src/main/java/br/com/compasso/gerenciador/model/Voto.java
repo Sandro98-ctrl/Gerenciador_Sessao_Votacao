@@ -17,6 +17,12 @@ public class Voto {
 	@DBRef
 	private Sessao sessao;
 	
+	public Voto(OpcaoVoto opcaoVoto, Associado associado, Sessao sessao) {
+		this.opcaoVoto = opcaoVoto;
+		this.associado = associado;
+		this.sessao = sessao;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -33,16 +39,8 @@ public class Voto {
 		return associado;
 	}
 
-	public void setAssociado(Associado associado) {
-		this.associado = associado;
-	}
-
 	public Sessao getSessao() {
 		return sessao;
-	}
-
-	public void setSessao(Sessao sessao) {
-		this.sessao = sessao;
 	}
 
 	@Override

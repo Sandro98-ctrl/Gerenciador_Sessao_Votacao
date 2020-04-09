@@ -9,12 +9,12 @@ import br.com.compasso.gerenciador.service.SessaoService;
 
 @Component
 @EnableScheduling
-public class VerificadorDeSessoesAbertas {
+public class VerificadorDeSessoesExpiradas {
 
 	private static final String TIME_ZONE = "America/Sao_Paulo";
 	private final SessaoService sessaoService;
 
-	public VerificadorDeSessoesAbertas(SessaoService sessaoService) {
+	public VerificadorDeSessoesExpiradas(SessaoService sessaoService) {
 		this.sessaoService = sessaoService;
 	}
 

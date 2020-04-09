@@ -12,15 +12,15 @@ import br.com.compasso.gerenciador.model.Voto;
 
 public class SessaoCompletaDTO {
 
-	private String id;
+	private final String id;
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-	private LocalDateTime dataHoraInicio;
+	private final LocalDateTime dataHoraInicio;
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-	private LocalDateTime dataHoraTermino;
-	private EstadoSessao estadoSessao;
-	private PautaDTO pauta;
-	private Collection<VotoDTO> votos;
-	
+	private final LocalDateTime dataHoraTermino;
+	private final EstadoSessao estadoSessao;
+	private final PautaDTO pauta;
+	private final Collection<VotoDTO> votos;
+
 	public SessaoCompletaDTO(Sessao sessao) {
 		this.id = sessao.getId();
 		this.dataHoraInicio = sessao.getDataHoraInicio();
@@ -41,7 +41,7 @@ public class SessaoCompletaDTO {
 	public LocalDateTime getDataHoraTermino() {
 		return dataHoraTermino;
 	}
-	
+
 	public EstadoSessao getEstadoSessao() {
 		return estadoSessao;
 	}
@@ -53,8 +53,8 @@ public class SessaoCompletaDTO {
 	public Collection<VotoDTO> getVotos() {
 		return votos;
 	}
-	
-	private Collection<VotoDTO> carregaVotos(Collection<Voto> votos){
+
+	private Collection<VotoDTO> carregaVotos(Collection<Voto> votos) {
 		return votos.stream().map(VotoDTO::new).collect(Collectors.toList());
 	}
 }

@@ -3,20 +3,20 @@ package br.com.compasso.gerenciador.controller.dto;
 import br.com.compasso.gerenciador.model.OpcaoVoto;
 import br.com.compasso.gerenciador.model.Voto;
 
-public class VotoDetalhadoDTO {
+public class VotoCriadoDTO {
 
 	private final String id;
 	private final OpcaoVoto opcaoVoto;
-	private final AssociadoDTO associado;
-	private final SessaoSimplificadaDTO sessao;
+	private final String associadoId;
+	private final String sessaoId;
 
-	public VotoDetalhadoDTO(Voto voto) {
+	public VotoCriadoDTO(Voto voto) {
 		this.id = voto.getId();
 		this.opcaoVoto = voto.getOpcaoVoto();
-		this.associado = new AssociadoDTO(voto.getAssociado());
-		this.sessao = new SessaoSimplificadaDTO(voto.getSessao());
+		this.associadoId = voto.getAssociado().getId();
+		this.sessaoId = voto.getSessao().getId();
 	}
-	
+
 	public String getId() {
 		return id;
 	}
@@ -25,12 +25,12 @@ public class VotoDetalhadoDTO {
 		return opcaoVoto;
 	}
 
-	public AssociadoDTO getAssociado() {
-		return associado;
+	public String getAssociadoId() {
+		return associadoId;
 	}
-	
-	public SessaoSimplificadaDTO getSessao() {
-		return sessao;
+
+	public String getSessaoId() {
+		return sessaoId;
 	}
 
 }

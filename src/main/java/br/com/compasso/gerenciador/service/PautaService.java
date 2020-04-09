@@ -1,13 +1,13 @@
 package br.com.compasso.gerenciador.service;
 
 import java.util.Collection;
-import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
 import br.com.compasso.gerenciador.controller.dto.PautaDTO;
 import br.com.compasso.gerenciador.controller.form.PautaForm;
 import br.com.compasso.gerenciador.converter.PautaConverter;
+import br.com.compasso.gerenciador.exception.PautaNotFoundException;
 import br.com.compasso.gerenciador.model.Pauta;
 import br.com.compasso.gerenciador.repository.PautaRepository;
 
@@ -40,6 +40,6 @@ public class PautaService {
 	
 	public Pauta getPautaById(String id){
 		var pauta = pautaRepository.findById(id);
-		return pauta.orElseThrow(() -> new NoSuchElementException("Pauta não encontrada"));
+		return pauta.orElseThrow(PautaNotFoundException::new);
 	}
 }

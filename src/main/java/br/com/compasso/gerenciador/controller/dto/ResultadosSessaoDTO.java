@@ -2,26 +2,28 @@ package br.com.compasso.gerenciador.controller.dto;
 
 import br.com.compasso.gerenciador.model.EstadoSessao;
 import br.com.compasso.gerenciador.model.Sessao;
+import br.com.compasso.gerenciador.util.ContabilizadorDeVotos;
 
 public class ResultadosSessaoDTO {
 
-	private EstadoSessao estadoSessao;
-	private Integer totalVotos;
-	private Long votosAFavor;
-	private Long votosContra;
+	private final EstadoSessao estadoSessao;
+	private final Long totalVotos;
+	private final Long votosAFavor;
+	private final Long votosContra;
 
 	public ResultadosSessaoDTO(Sessao sessao) {
+		var contabilizador = new ContabilizadorDeVotos(sessao.getVotos());
 		this.estadoSessao = sessao.getEstado();
-		this.totalVotos = sessao.getVotos().size();
-		this.votosAFavor = sessao.contaVotosAFavor();
-		this.votosContra = sessao.contaVotosContra();
+		this.totalVotos = contabilizador.totalDeVotos();
+		this.votosAFavor = contabilizador.votosAFavor();
+		this.votosContra = contabilizador.votosContra();
 	}
 	
 	public EstadoSessao getEstadoSessao() {
 		return estadoSessao;
 	}
 	
-	public Integer getTotalVotos() {
+	public Long getTotalVotos() {
 		return totalVotos;
 	}
 

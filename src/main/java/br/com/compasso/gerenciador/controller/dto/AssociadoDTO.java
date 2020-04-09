@@ -4,9 +4,9 @@ import br.com.compasso.gerenciador.model.Associado;
 
 public class AssociadoDTO {
 
-	private String id;
-	private String cpf;
-	private String nome;
+	private final String id;
+	private final String cpf;
+	private final String nome;
 
 	public AssociadoDTO(Associado associado) {
 		this.id = associado.getId();

@@ -19,7 +19,6 @@ import br.com.compasso.gerenciador.controller.dto.ResultadosSessaoDTO;
 import br.com.compasso.gerenciador.controller.dto.SessaoCompletaDTO;
 import br.com.compasso.gerenciador.controller.dto.SessaoCriadaDTO;
 import br.com.compasso.gerenciador.controller.form.SessaoForm;
-import br.com.compasso.gerenciador.controller.form.VotoForm;
 
 @RestController
 @RequestMapping("/sessoes")
@@ -55,12 +54,5 @@ public class SessaoController {
 		var sessaoDTO = sessaoBusiness.cadastrar(form);
 		var uri = uriBuilder.path("/sessoes/{id}").buildAndExpand(sessaoDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(sessaoDTO);
-	}
-
-	@PostMapping("/{id}/votar")
-	@Transactional
-	public ResponseEntity<?> votar(@RequestBody @Valid VotoForm form, @PathVariable String id) {
-		sessaoBusiness.votar(form, id);
-		return ResponseEntity.ok().build();
 	}
 }

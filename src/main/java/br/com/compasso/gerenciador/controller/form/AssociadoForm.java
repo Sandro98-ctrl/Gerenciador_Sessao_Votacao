@@ -5,8 +5,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.br.CPF;
 
-import br.com.compasso.gerenciador.model.Associado;
-
 public class AssociadoForm {
 
 	@NotNull

@@ -10,12 +10,12 @@ import br.com.compasso.gerenciador.model.Sessao;
 
 public class SessaoCriadaDTO {
 
-	private String id;
+	private final String id;
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-	private LocalDateTime dataHoraInicio;
+	private final LocalDateTime dataHoraInicio;
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-	private LocalDateTime dataHoraTermino;
-	private String pautaId;
+	private final LocalDateTime dataHoraTermino;
+	private final String pautaId;
 
 	public SessaoCriadaDTO(Sessao sessao) {
 		this.id = sessao.getId();

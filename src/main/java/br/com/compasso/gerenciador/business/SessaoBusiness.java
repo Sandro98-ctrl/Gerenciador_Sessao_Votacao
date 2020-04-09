@@ -8,28 +8,18 @@ import br.com.compasso.gerenciador.controller.dto.ResultadosSessaoDTO;
 import br.com.compasso.gerenciador.controller.dto.SessaoCompletaDTO;
 import br.com.compasso.gerenciador.controller.dto.SessaoCriadaDTO;
 import br.com.compasso.gerenciador.controller.form.SessaoForm;
-import br.com.compasso.gerenciador.controller.form.VotoForm;
-import br.com.compasso.gerenciador.converter.VotoConverter;
-import br.com.compasso.gerenciador.service.AssociadoService;
 import br.com.compasso.gerenciador.service.PautaService;
 import br.com.compasso.gerenciador.service.SessaoService;
-import br.com.compasso.gerenciador.service.VotoService;
 
 @Service
 public class SessaoBusiness {
 
 	private final SessaoService sessaoService;
 	private final PautaService pautaService;
-	private final AssociadoService associadoService;
-	private final VotoService votoService;
-	private final VotoConverter votoConverter; 
 	
-	public SessaoBusiness(SessaoService sessaoService, PautaService pautaService, AssociadoService associadoService, VotoService votoService, VotoConverter votoConverter) {
+	public SessaoBusiness(SessaoService sessaoService, PautaService pautaService) {
 		this.sessaoService = sessaoService;
 		this.pautaService = pautaService;
-		this.associadoService = associadoService;
-		this.votoService = votoService;  
-		this.votoConverter = votoConverter;
 	}
 
 	public Collection<SessaoCompletaDTO> getAllSessoes() {
@@ -46,9 +36,5 @@ public class SessaoBusiness {
 	
 	public SessaoCriadaDTO cadastrar(SessaoForm form) {
 		return sessaoService.cadastrar(form, pautaService);
-	}
-	
-	public void votar(VotoForm form, String sessaoId){
-		sessaoService.votar(associadoService, votoService, form, sessaoId);
 	}
 }

@@ -5,8 +5,8 @@ import br.com.compasso.gerenciador.model.Sessao;
 
 public class SessaoSimplificadaDTO {
 
-	private String id;
-	private EstadoSessao estado;
+	private final String id;
+	private final EstadoSessao estado;
 
 	public SessaoSimplificadaDTO(Sessao sessao) {
 		this.id = sessao.getId();
