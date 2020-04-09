@@ -21,9 +21,6 @@ public class VerificadorDeSessoesExpiradas {
 	@Scheduled(fixedDelay = 5000, zone = TIME_ZONE)
 	@Transactional
 	public void verificar() {
-		var lista = sessaoService.getSessoesExpiradas();
-		System.out.println("Rodando");
-		if (lista.isEmpty()) return;
-		lista.forEach(s -> sessaoService.encerraSessao(s));
+		sessaoService.encerraSessoesExpiradas();
 	}
 }

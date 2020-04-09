@@ -12,8 +12,6 @@ public class Pauta {
 	private String id;
 	private String assunto;
 	private String descricao;
-//	@DBRef
-//	private Sessao sessao;
 
 	public Pauta(String assunto, String descricao) {
 		this.assunto = assunto;

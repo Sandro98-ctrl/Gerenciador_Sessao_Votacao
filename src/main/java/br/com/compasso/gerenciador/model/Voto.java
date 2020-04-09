@@ -31,10 +31,6 @@ public class Voto {
 		return opcaoVoto;
 	}
 
-	public void setOpcaoVoto(OpcaoVoto opcaoVoto) {
-		this.opcaoVoto = opcaoVoto;
-	}
-
 	public Associado getAssociado() {
 		return associado;
 	}

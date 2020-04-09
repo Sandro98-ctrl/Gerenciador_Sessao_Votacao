@@ -1,6 +1,5 @@
 package br.com.compasso.gerenciador.converter;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -17,19 +16,14 @@ import br.com.compasso.gerenciador.service.PautaService;
 public class SessaoConverter {
 
 	public Sessao toSessao(SessaoForm form, PautaService pautaService) {
-		var pauta = pautaService.getPautaById(form.getPautaId());
-		var sessao = new Sessao();
-		sessao.setPauta(pauta);
+		var pauta = pautaService.getOne(form.getPautaId());
+		var dataHoraTermino = form.getDataHoraTermino();
 		
-		if(form.getDataHoraTermino() != null) {
-			if(form.getDataHoraTermino().isBefore(LocalDateTime.now())) {
-				throw new IllegalArgumentException("Data e hora informada é inferior a data e hora atual");
-			}
-			
-			sessao.setDataHoraTermino(form.getDataHoraTermino());
+		if(dataHoraTermino == null) {
+			return new Sessao(pauta); 
 		}
 		
-		return sessao;
+		return new Sessao(pauta, dataHoraTermino);
 	}
 
 	public SessaoCriadaDTO toSessaoCriadaDTO(Sessao sessao) {

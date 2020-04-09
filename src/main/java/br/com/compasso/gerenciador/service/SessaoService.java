@@ -31,21 +31,6 @@ public class SessaoService {
 		return sessaoConverter.toSessaoCompletaDTOCollection(sessoes);
 	}
 
-	public Collection<Sessao> getSessoesExpiradas() {
-		return sessaoRepository.findByEstadoAndDataHoraTerminoLessThan(EstadoSessao.ABERTA, LocalDateTime.now());
-	}
-
-	public SessaoCriadaDTO cadastrar(SessaoForm form, PautaService pautaService) {
-		var sessao = sessaoConverter.toSessao(form, pautaService);
-		sessaoRepository.save(sessao);
-		return sessaoConverter.toSessaoCriadaDTO(sessao);
-	}
-	
-	public Sessao getOne(String id) {
-		var sessao = sessaoRepository.findById(id);
-		return sessao.orElseThrow(SessaoNotFoundException::new);
-	}
-
 	public SessaoCompletaDTO getSessaoCompleta(String id) {
 		var sessao = getOne(id);
 		return sessaoConverter.toSessaoCompletaDTO(sessao);
@@ -55,10 +40,25 @@ public class SessaoService {
 		var sessao = getOne(id);
 		return sessaoConverter.toResultadosSessaoDTO(sessao);
 	}
-
-	public void encerraSessao(Sessao sessao) {
-		sessao.setEstado(EstadoSessao.ENCERRADA);
+	
+	public Sessao getOne(String id) {
+		var sessao = sessaoRepository.findById(id);
+		return sessao.orElseThrow(SessaoNotFoundException::new);
+	}
+	
+	public SessaoCriadaDTO cadastrar(SessaoForm form, PautaService pautaService) {
+		var sessao = sessaoConverter.toSessao(form, pautaService);
 		sessaoRepository.save(sessao);
+		return sessaoConverter.toSessaoCriadaDTO(sessao);
+	}
+
+	public void encerraSessoesExpiradas() {
+		var expiradas = sessaoRepository.findByEstadoAndDataHoraTerminoLessThan(EstadoSessao.ABERTA, LocalDateTime.now());
+		if (expiradas.isEmpty()) return;
+		expiradas.forEach(s -> {
+			s.encerrar();
+			sessaoRepository.save(s);
+		});
 	}
 
 }

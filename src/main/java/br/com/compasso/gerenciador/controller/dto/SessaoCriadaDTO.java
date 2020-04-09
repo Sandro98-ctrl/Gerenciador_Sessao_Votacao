@@ -40,8 +40,4 @@ public class SessaoCriadaDTO {
 		return pautaId;
 	}
 
-	public static List<SessaoCriadaDTO> convert(List<Sessao> lista) {
-		return lista.stream().map(SessaoCriadaDTO::new).collect(Collectors.toList());
-	}
-
 }

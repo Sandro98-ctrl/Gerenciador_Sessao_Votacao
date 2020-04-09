@@ -28,8 +28,13 @@ public class PautaService {
 	}
 	
 	public PautaDTO getById(String id){
-		var pauta = getPautaById(id);
+		var pauta = getOne(id);
 		return pautaConverter.toPautaDTO(pauta);
+	}
+	
+	public Pauta getOne(String id){
+		var pauta = pautaRepository.findById(id);
+		return pauta.orElseThrow(PautaNotFoundException::new);
 	}
 	
 	public PautaDTO cadastrar(PautaForm form) {
@@ -38,8 +43,4 @@ public class PautaService {
 		return pautaConverter.toPautaDTO(pauta);
 	}
 	
-	public Pauta getPautaById(String id){
-		var pauta = pautaRepository.findById(id);
-		return pauta.orElseThrow(PautaNotFoundException::new);
-	}
 }

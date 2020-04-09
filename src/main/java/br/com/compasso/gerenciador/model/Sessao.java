@@ -10,8 +10,6 @@ import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import br.com.compasso.gerenciador.util.ContabilizadorDeVotos;
-
 @Document(collection = "sessoes")
 @TypeAlias("Sessao")
 public class Sessao {
@@ -26,11 +24,30 @@ public class Sessao {
 	@DBRef
 	private Collection<Voto> votos;
 	
+	public Sessao(Pauta pauta, LocalDateTime dataHoraTermino) {
+		this(pauta);
+		
+		if(dataHoraTermino == null) {
+			throw new IllegalArgumentException("Data/hora é inválida");
+		}
+		
+		if(dataHoraTermino.isBefore(dataHoraInicio)) {
+			throw new IllegalArgumentException("Data/hora é inferior a data/hora atual");
+		}
+		
+		this.dataHoraTermino = dataHoraTermino;
+	}
+	
+	public Sessao(Pauta pauta) {
+		this();
+		this.pauta = pauta;
+	}
+	
 	public Sessao() {
-		dataHoraInicio = LocalDateTime.now();
-		dataHoraTermino = dataHoraInicio.plusMinutes(1);
-		estado = EstadoSessao.ABERTA;
-		votos = new HashSet<Voto>();
+		this.dataHoraInicio = LocalDateTime.now();
+		this.dataHoraTermino = dataHoraInicio.plusMinutes(1);
+		this.estado = EstadoSessao.ABERTA;
+		this.votos = new HashSet<Voto>();
 	}
 
 	public String getId() {
@@ -45,24 +62,12 @@ public class Sessao {
 		return dataHoraTermino;
 	}
 
-	public void setDataHoraTermino(LocalDateTime dataHoraTermino) {
-		this.dataHoraTermino = dataHoraTermino;
-	}
-
 	public EstadoSessao getEstado() {
 		return estado;
 	}
 
-	public void setEstado(EstadoSessao estado) {
-		this.estado = estado;
-	}
-
 	public Pauta getPauta() {
 		return pauta;
-	}
-
-	public void setPauta(Pauta pauta) {
-		this.pauta = pauta;
 	}
 
 	public Collection<Voto> getVotos() {
@@ -75,6 +80,10 @@ public class Sessao {
 	
 	public boolean isSessaoExpirada() {
 		return dataHoraTermino.isBefore(LocalDateTime.now());
+	}
+	
+	public void encerrar() {
+		this.estado = EstadoSessao.ENCERRADA;
 	}
 
 }
