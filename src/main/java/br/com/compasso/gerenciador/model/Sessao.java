@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
@@ -23,29 +24,25 @@ public class Sessao {
 	private Pauta pauta;
 	@DBRef
 	private Collection<Voto> votos;
-	
+
 	public Sessao(Pauta pauta, LocalDateTime dataHoraTermino) {
-		this(pauta);
-		
-		if(dataHoraTermino == null) {
-			throw new IllegalArgumentException("Data/hora é inválida");
-		}
-		
-		if(dataHoraTermino.isBefore(dataHoraInicio)) {
+		this();
+		dataHoraTermino = Optional.ofNullable(dataHoraTermino).orElse(dataHoraInicio.plusMinutes(1));
+
+		if (dataHoraTermino.isBefore(dataHoraInicio)) {
 			throw new IllegalArgumentException("Data/hora é inferior a data/hora atual");
 		}
-		
+
+		if (pauta == null) {
+			throw new IllegalArgumentException("Pauta está nula");
+		}
+
 		this.dataHoraTermino = dataHoraTermino;
-	}
-	
-	public Sessao(Pauta pauta) {
-		this();
 		this.pauta = pauta;
 	}
-	
-	public Sessao() {
+
+	private Sessao() {
 		this.dataHoraInicio = LocalDateTime.now();
-		this.dataHoraTermino = dataHoraInicio.plusMinutes(1);
 		this.estado = EstadoSessao.ABERTA;
 		this.votos = new HashSet<Voto>();
 	}
@@ -77,11 +74,11 @@ public class Sessao {
 	public boolean addVoto(Voto voto) {
 		return votos.contains(voto) ? false : votos.add(voto);
 	}
-	
+
 	public boolean isSessaoExpirada() {
 		return dataHoraTermino.isBefore(LocalDateTime.now());
 	}
-	
+
 	public void encerrar() {
 		this.estado = EstadoSessao.ENCERRADA;
 	}

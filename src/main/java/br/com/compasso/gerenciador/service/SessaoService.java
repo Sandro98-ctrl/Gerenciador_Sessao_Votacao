@@ -55,6 +55,7 @@ public class SessaoService {
 	public void encerraSessoesExpiradas() {
 		var expiradas = sessaoRepository.findByEstadoAndDataHoraTerminoLessThan(EstadoSessao.ABERTA, LocalDateTime.now());
 		if (expiradas.isEmpty()) return;
+		
 		expiradas.forEach(s -> {
 			s.encerrar();
 			sessaoRepository.save(s);

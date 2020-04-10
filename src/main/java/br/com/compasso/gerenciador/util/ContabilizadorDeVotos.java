@@ -2,6 +2,7 @@ package br.com.compasso.gerenciador.util;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Collections;
 
 import br.com.compasso.gerenciador.model.OpcaoVoto;
 import br.com.compasso.gerenciador.model.Voto;
@@ -11,7 +12,7 @@ public class ContabilizadorDeVotos {
 	private final Collection<Voto> votos;
 
 	public ContabilizadorDeVotos(Collection<Voto> votos) {
-		this.votos = votos;
+		this.votos = Collections.unmodifiableCollection(votos);
 	}
 
 	public Long votosAFavor() {
@@ -22,11 +23,11 @@ public class ContabilizadorDeVotos {
 		return contabilizar(OpcaoVoto.NAO);
 	}
 	
-	public BigDecimal porcAFavor() {
+	public BigDecimal porcentagemAFavor() {
 		return new BigDecimal(votosAFavor()/ totalDeVotos());
 	}
 	
-	public BigDecimal porcContra() {
+	public BigDecimal porcentagemContra() {
 		return new BigDecimal(votosContra()/ totalDeVotos());
 	}
 

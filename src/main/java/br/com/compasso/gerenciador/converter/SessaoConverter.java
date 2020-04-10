@@ -17,12 +17,7 @@ public class SessaoConverter {
 
 	public Sessao toSessao(SessaoForm form, PautaService pautaService) {
 		var pauta = pautaService.getOne(form.getPautaId());
-		var dataHoraTermino = form.getDataHoraTermino();
-		
-		if(dataHoraTermino == null) {
-			return new Sessao(pauta); 
-		}
-		
+		var dataHoraTermino = form.getDataHoraTermino();		
 		return new Sessao(pauta, dataHoraTermino);
 	}
 
