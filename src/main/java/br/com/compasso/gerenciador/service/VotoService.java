@@ -8,8 +8,6 @@ import br.com.compasso.gerenciador.controller.dto.VotoCriadoDTO;
 import br.com.compasso.gerenciador.controller.dto.VotoDetalhadoDTO;
 import br.com.compasso.gerenciador.controller.form.VotoForm;
 import br.com.compasso.gerenciador.converter.VotoConverter;
-import br.com.compasso.gerenciador.exception.JaVotouException;
-import br.com.compasso.gerenciador.exception.SessaoFechadaException;
 import br.com.compasso.gerenciador.exception.VotoNotFoundException;
 import br.com.compasso.gerenciador.repository.VotoRepository;
 
@@ -36,15 +34,7 @@ public class VotoService {
 
 	public VotoCriadoDTO cadastrar(VotoForm form, AssociadoService associadoService, SessaoService sessaoService) {
 		var voto =  votoConverter.toVoto(form, associadoService, sessaoService);
-		
-		if (voto.getSessao().isSessaoExpirada()) {
-			throw new SessaoFechadaException("A sessão está encerrada");
-		}
-		
-		if(!voto.getSessao().addVoto(voto)) {
-			throw new JaVotouException("Este associado já votou nesta sessão");
-		}
-		
+		voto.verificaSessaoExpirada();
 		votoRepository.save(voto);
 		return votoConverter.toVotoCriadoDTO(voto);
 	}

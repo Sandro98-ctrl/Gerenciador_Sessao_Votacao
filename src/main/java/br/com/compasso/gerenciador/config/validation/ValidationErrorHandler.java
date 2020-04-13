@@ -29,15 +29,21 @@ public class ValidationErrorHandler {
 
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public Collection<FormErrorDTO> handle(MethodArgumentNotValidException ex) {
-		var errors = new ArrayList<FormErrorDTO>();
+	public Collection<FieldErrorDTO> handle(MethodArgumentNotValidException ex) {
+		var errors = new ArrayList<FieldErrorDTO>();
 
 		ex.getBindingResult().getFieldErrors().forEach(e -> {
 			var message = messageSource.getMessage(e, LocaleContextHolder.getLocale());
-			errors.add(new FormErrorDTO(e.getField(), message));
+			errors.add(new FieldErrorDTO(e.getField(), message));
 		});
 
 		return errors;
+	}
+
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(NotFoundException.class)
+	public NotFoundDTO handle(NotFoundException ex) {
+		return new NotFoundDTO(ex.getClassName(), ex.getMessage());
 	}
 	
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
@@ -45,8 +51,7 @@ public class ValidationErrorHandler {
 					   IllegalArgumentException.class,
 					   InvalidFormatException.class,
 					   SessaoFechadaException.class,
-					   JaVotouException.class,
-					   NotFoundException.class})
+					   JaVotouException.class})
 	public ErrorDTO handle(RuntimeException ex) {
 		return new ErrorDTO(ex.getMessage());
 	}

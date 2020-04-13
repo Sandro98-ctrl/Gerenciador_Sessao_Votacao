@@ -1,11 +1,11 @@
 package br.com.compasso.gerenciador.config.validation;
 
-public class FormErrorDTO {
+public class FieldErrorDTO {
 
 	private String field;
 	private String error;
 	
-	public FormErrorDTO(String field, String error) {
+	public FieldErrorDTO(String field, String error) {
 		this.field = field;
 		this.error = error;
 	}

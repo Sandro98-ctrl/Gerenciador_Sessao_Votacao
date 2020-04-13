@@ -11,6 +11,8 @@ import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import br.com.compasso.gerenciador.exception.JaVotouException;
+
 @Document(collection = "sessoes")
 @TypeAlias("Sessao")
 public class Sessao {
@@ -72,7 +74,11 @@ public class Sessao {
 	}
 
 	public boolean addVoto(Voto voto) {
-		return votos.contains(voto) ? false : votos.add(voto);
+		if (votos.contains(voto)) {
+			throw new JaVotouException("Este associado já votou nesta sessão");
+		}
+
+		return votos.add(voto);
 	}
 
 	public boolean isSessaoExpirada() {

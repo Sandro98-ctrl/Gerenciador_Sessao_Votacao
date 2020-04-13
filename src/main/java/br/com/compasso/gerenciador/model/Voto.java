@@ -5,6 +5,8 @@ import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import br.com.compasso.gerenciador.exception.SessaoFechadaException;
+
 @Document(collection = "votos")
 @TypeAlias("Voto")
 public class Voto {
@@ -16,17 +18,17 @@ public class Voto {
 	private Associado associado;
 	@DBRef
 	private Sessao sessao;
-	
+
 	public Voto(OpcaoVoto opcaoVoto, Associado associado, Sessao sessao) {
 		this.opcaoVoto = opcaoVoto;
 		this.associado = associado;
-		this.sessao = sessao;
+		setSessao(sessao);
 	}
 
 	public String getId() {
 		return id;
 	}
-	
+
 	public OpcaoVoto getOpcaoVoto() {
 		return opcaoVoto;
 	}
@@ -37,6 +39,12 @@ public class Voto {
 
 	public Sessao getSessao() {
 		return sessao;
+	}
+
+	public void verificaSessaoExpirada() {
+		if (sessao.isSessaoExpirada()) {
+			throw new SessaoFechadaException("A sessão está encerrada");
+		}
 	}
 
 	@Override
@@ -62,6 +70,11 @@ public class Voto {
 		} else if (!associado.equals(other.associado))
 			return false;
 		return true;
+	}
+
+	private void setSessao(Sessao sessao) {
+		this.sessao = sessao;
+		this.sessao.addVoto(this);
 	}
 
 }
