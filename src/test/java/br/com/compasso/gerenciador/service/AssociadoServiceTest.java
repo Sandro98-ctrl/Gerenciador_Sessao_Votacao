@@ -1,13 +1,12 @@
 package br.com.compasso.gerenciador.service;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Optional;
 
+import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -44,7 +43,8 @@ class AssociadoServiceTest {
 
 		var form = Mockito.mock(AssociadoForm.class);
 		var associado = Mockito.mock(Associado.class);
-		var associadoDTO = new AssociadoDTO(new Associado("123", "Sandro"));
+//		var associadoDTO = new AssociadoDTO(new Associado("123", "Sandro"));
+		var associadoDTO = new AssociadoDTO();
 
 		Mockito.when(associadoConverter.toAssociado(form)).thenReturn(associado);
 		Mockito.when(associadoConverter.toAssociadoDTO(associado)).thenReturn(associadoDTO);
@@ -59,7 +59,8 @@ class AssociadoServiceTest {
 	void getByIdTest() {
 
 		var associado = Mockito.mock(Associado.class);
-		var associadoDTO = new AssociadoDTO(new Associado("456", "Sandro"));
+//		var associadoDTO = new AssociadoDTO(new Associado("456", "Sandro"));
+		var associadoDTO = new AssociadoDTO();
 
 		Mockito.when(associadoConverter.toAssociadoDTO(associado)).thenReturn(associadoDTO);
 		Mockito.when(associadoRepository.findById("5e8ddb2dc6f9f5243429fde1")).thenReturn(Optional.of(associado));
@@ -70,22 +71,19 @@ class AssociadoServiceTest {
 		assertEquals(associadoDTO, associadoDTO2);
 	}
 
-	@Test
+	@Test(expected = AssociadoNotFoundException.class)
 	void getByIdTestException() {
-		
+
 		var associado = Mockito.mock(Associado.class);
-		var associadoDTOMockado = new AssociadoDTO(new Associado("456", "Sandro"));
-		
+//		var associadoDTOMockado = new AssociadoDTO(new Associado("456", "Sandro"));
+		var associadoDTOMockado = new AssociadoDTO();
+
 		Mockito.when(associadoConverter.toAssociadoDTO(associado)).thenReturn(associadoDTOMockado);
-		Mockito.doThrow(new AssociadoNotFoundException()).when(associadoRepository).findById("5e8ddb2dc6f9f5243429fde1");
-		
-		try {
-			associadoService.getById("5e8ddb2dc6f9f5243429fde1");
-			fail();
-		}catch (Exception e) {
-			
-		}
-		
+		Mockito.doThrow(new AssociadoNotFoundException()).when(associadoRepository)
+				.findById("5e8ddb2dc6f9f5243429fde1");
+
+		associadoService.getById("5e8ddb2dc6f9f5243429fde1");
+
 		Mockito.verify(associadoRepository).findById("5e8ddb2dc6f9f5243429fde1");
 	}
 

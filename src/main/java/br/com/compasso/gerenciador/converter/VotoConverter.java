@@ -1,8 +1,9 @@
 package br.com.compasso.gerenciador.converter;
 
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import br.com.compasso.gerenciador.controller.dto.VotoCriadoDTO;
@@ -16,26 +17,32 @@ import br.com.compasso.gerenciador.service.SessaoService;
 @Component
 public class VotoConverter {
 
+	private final ModelMapper mapper;
+
+	public VotoConverter(ModelMapper mapper) {
+		this.mapper = mapper;
+	}
+
 	public VotoDTO toVotoDTO(Voto voto) {
-		return new VotoDTO(voto);
+		return mapper.map(voto, VotoDTO.class);
 	}
-	
+
 	public VotoDetalhadoDTO toVotoDetalhadoDTO(Voto voto) {
-		return new VotoDetalhadoDTO(voto);
+		return mapper.map(voto, VotoDetalhadoDTO.class);
 	}
-	
+
 	public VotoCriadoDTO toVotoCriadoDTO(Voto voto) {
-		return new VotoCriadoDTO(voto);
+		return mapper.map(voto, VotoCriadoDTO.class);
 	}
-	
-	public Collection<VotoDetalhadoDTO> toVotoDetalhadoDTOCollection(Collection<Voto> votos){
-		return votos.stream().map(VotoDetalhadoDTO::new).collect(Collectors.toList());
+
+	public Collection<VotoDetalhadoDTO> toVotoDetalhadoDTOCollection(Collection<Voto> votos) {
+		return Arrays.asList(mapper.map(votos, VotoDetalhadoDTO[].class));
 	}
-	
+
 	public Voto toVoto(VotoForm form, AssociadoService associadoService, SessaoService sessaoService) {
-		var opcao = form.getOpcaoVoto();
+		var opcaoVoto = form.getOpcaoVoto();
 		var associado = associadoService.getOne(form.getAssociadoId());
-		var sessao =  sessaoService.getOne(form.getSessaoId());
-		return new Voto(opcao, associado, sessao);
+		var sessao = sessaoService.getOne(form.getSessaoId());
+		return new Voto(opcaoVoto, associado, sessao);
 	}
 }

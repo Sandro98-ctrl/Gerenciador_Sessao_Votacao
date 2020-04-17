@@ -20,10 +20,13 @@ public class Voto {
 	private Sessao sessao;
 
 	public Voto(OpcaoVoto opcaoVoto, Associado associado, Sessao sessao) {
+		this();
 		this.opcaoVoto = opcaoVoto;
 		this.associado = associado;
 		setSessao(sessao);
 	}
+	
+	private Voto() {}
 
 	public String getId() {
 		return id;
@@ -41,10 +44,14 @@ public class Voto {
 		return sessao;
 	}
 
-	public void verificaSessaoExpirada() {
-		if (sessao.isSessaoExpirada()) {
-			throw new SessaoFechadaException("A sessão está encerrada");
+	public void setSessao(Sessao sessao) {
+		if(sessao == null) {
+			throw new IllegalArgumentException("Sessão está nula");
 		}
+		
+		sessao.verificaSeEncerrada();
+		this.sessao = sessao;
+		this.sessao.addVoto(this);
 	}
 
 	@Override
@@ -71,10 +78,4 @@ public class Voto {
 			return false;
 		return true;
 	}
-
-	private void setSessao(Sessao sessao) {
-		this.sessao = sessao;
-		this.sessao.addVoto(this);
-	}
-
 }

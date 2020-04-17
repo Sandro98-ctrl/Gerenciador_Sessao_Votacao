@@ -1,24 +1,16 @@
 package br.com.compasso.gerenciador.controller.dto;
 
 import br.com.compasso.gerenciador.model.EstadoSessao;
-import br.com.compasso.gerenciador.model.Sessao;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SessaoSimplificadaDTO {
 
-	private final String id;
-	private final EstadoSessao estado;
-
-	public SessaoSimplificadaDTO(Sessao sessao) {
-		this.id = sessao.getId();
-		this.estado = sessao.getEstado();
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public EstadoSessao getEstado() {
-		return estado;
-	}
+	private String id;
+	private EstadoSessao estado;
 
 }

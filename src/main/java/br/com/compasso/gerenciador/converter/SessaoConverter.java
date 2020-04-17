@@ -1,8 +1,9 @@
 package br.com.compasso.gerenciador.converter;
 
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import br.com.compasso.gerenciador.controller.dto.ResultadosSessaoDTO;
@@ -15,26 +16,32 @@ import br.com.compasso.gerenciador.service.PautaService;
 @Component
 public class SessaoConverter {
 
-	public Sessao toSessao(SessaoForm form, PautaService pautaService) {
-		var pauta = pautaService.getOne(form.getPautaId());
-		var dataHoraTermino = form.getDataHoraTermino();		
-		return new Sessao(pauta, dataHoraTermino);
+	private final ModelMapper mapper;
+
+	public SessaoConverter(ModelMapper mapper) {
+		this.mapper = mapper;
 	}
 
 	public SessaoCriadaDTO toSessaoCriadaDTO(Sessao sessao) {
-		return new SessaoCriadaDTO(sessao);
+		return mapper.map(sessao, SessaoCriadaDTO.class);
 	}
 	
 	public ResultadosSessaoDTO toResultadosSessaoDTO(Sessao sessao) {
-		return new ResultadosSessaoDTO(sessao);
+		return mapper.map(sessao, ResultadosSessaoDTO.class);
 	}
 	
 	public SessaoCompletaDTO toSessaoCompletaDTO(Sessao sessao) {
-		return new SessaoCompletaDTO(sessao);
+		return mapper.map(sessao, SessaoCompletaDTO.class);
 	}
 	
 	public Collection<SessaoCompletaDTO> toSessaoCompletaDTOCollection(Collection<Sessao> sessoes) {
-		return sessoes.stream().map(SessaoCompletaDTO::new).collect(Collectors.toList());
+		return Arrays.asList(mapper.map(sessoes, SessaoCompletaDTO[].class));
+	}
+	
+	public Sessao toSessao(SessaoForm form, PautaService pautaService) {
+		var dataHoraTermino = form.getDataHoraTermino();
+		var pauta = pautaService.getOne(form.getPautaId());		
+		return new Sessao(dataHoraTermino, pauta);
 	}
 	
 }

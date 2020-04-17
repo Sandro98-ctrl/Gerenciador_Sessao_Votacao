@@ -1,7 +1,9 @@
 package br.com.compasso.gerenciador.service;
 
+import java.util.Arrays;
 import java.util.Collection;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import br.com.compasso.gerenciador.controller.dto.AssociadoDTO;
@@ -21,17 +23,17 @@ public class AssociadoService {
 		this.associadoRepository = associadoRepository;
 		this.associadoConverter = associadoConverter;
 	}
-	
-	public Collection<AssociadoDTO> getAll(){
-		var lista = associadoRepository.findAll();
-		return associadoConverter.toAssociadoDTOCollection(lista);
+
+	public Collection<AssociadoDTO> getAll() {
+		var associados = associadoRepository.findAll();
+		return associadoConverter.toAssociadoDTOCollection(associados);
 	}
-	
+
 	public AssociadoDTO getById(String id) {
 		var associado = getOne(id);
 		return associadoConverter.toAssociadoDTO(associado);
 	}
-	
+
 	public Associado getOne(String id) {
 		var associado = associadoRepository.findById(id);
 		return associado.orElseThrow(AssociadoNotFoundException::new);

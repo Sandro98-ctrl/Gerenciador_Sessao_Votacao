@@ -10,16 +10,16 @@ public class Associado {
 	private String id;
 	private String cpf;
 	private String nome;
-	
+
 	public Associado(String cpf, String nome) {
 		this.cpf = cpf;
 		this.nome = nome;
 	}
-	
+
 	public String getId() {
 		return id;
 	}
-	
+
 	public String getCpf() {
 		return cpf;
 	}

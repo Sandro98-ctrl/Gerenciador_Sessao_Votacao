@@ -12,7 +12,7 @@ public class Pauta {
 	private String id;
 	private String assunto;
 	private String descricao;
-
+	
 	public Pauta(String assunto, String descricao) {
 		this.assunto = assunto;
 		this.descricao = descricao;
@@ -26,8 +26,16 @@ public class Pauta {
 		return assunto;
 	}
 
+	public void setAssunto(String assunto) {
+		this.assunto = assunto;
+	}
+
 	public String getDescricao() {
 		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 }

@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import br.com.compasso.gerenciador.exception.JaVotouException;
+import br.com.compasso.gerenciador.exception.SessaoFechadaException;
 
 @Document(collection = "sessoes")
 @TypeAlias("Sessao")
@@ -26,19 +27,19 @@ public class Sessao {
 	private Pauta pauta;
 	@DBRef
 	private Collection<Voto> votos;
-
-	public Sessao(Pauta pauta, LocalDateTime dataHoraTermino) {
+	
+	public Sessao(LocalDateTime dataHoraTermino, Pauta pauta) {
 		this();
 		dataHoraTermino = Optional.ofNullable(dataHoraTermino).orElse(dataHoraInicio.plusMinutes(1));
 
 		if (dataHoraTermino.isBefore(dataHoraInicio)) {
 			throw new IllegalArgumentException("Data/hora é inferior a data/hora atual");
 		}
-
+		
 		if (pauta == null) {
 			throw new IllegalArgumentException("Pauta está nula");
 		}
-
+		
 		this.dataHoraTermino = dataHoraTermino;
 		this.pauta = pauta;
 	}
@@ -68,7 +69,7 @@ public class Sessao {
 	public Pauta getPauta() {
 		return pauta;
 	}
-
+	
 	public Collection<Voto> getVotos() {
 		return Collections.unmodifiableCollection(votos);
 	}
@@ -81,8 +82,14 @@ public class Sessao {
 		return votos.add(voto);
 	}
 
-	public boolean isSessaoExpirada() {
+	public boolean isExpirada() {
 		return dataHoraTermino.isBefore(LocalDateTime.now());
+	}
+	
+	public void verificaSeEncerrada() {
+		if (isExpirada()) {
+			throw new SessaoFechadaException("A sessão está encerrada");
+		}
 	}
 
 	public void encerrar() {

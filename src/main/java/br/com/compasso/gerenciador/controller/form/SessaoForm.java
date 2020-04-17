@@ -7,6 +7,13 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SessaoForm {
 
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
@@ -14,13 +21,5 @@ public class SessaoForm {
 	@NotNull
 	@NotEmpty
 	private String pautaId;
-	
-	public LocalDateTime getDataHoraTermino() {
-		return dataHoraTermino;
-	}
 
-	public String getPautaId() {
-		return pautaId;
-	}
-	
 }
